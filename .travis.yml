@@ -1,0 +1,20 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t jfdv/react-test -f ./react-app/Dockerfile.dev ./react-app
+
+script:
+    - docker run -e CI=true jfdv/react-test npm run test
+
+after_success:
+    - docker build -t jfdv/multipass-react-app ./react-app
+    - docker build -t jfdv/multipass-express-server ./express-server
+    - docker build -t jfdv/multipass-redis-worker ./redis-worker
+    - docker build -t jfdv/multipass-nginx-router ./nginx-router
+    - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push jfdv/multipass-react-app
+    - docker push jfdv/multipass-express-server
+    - docker push jfdv/multipass-redis-worker
+    - docker push jfdv/multipass-nginx-router
