@@ -11,6 +11,7 @@ function App() {
       <div className="App">
         <header className="App-header" style={{'min-height': 'initial'}}>
           <img src={logo} className="App-logo" alt="logo" />
+          <div>BAZINGA!</div>
           <Link to="/">Home</Link>
           <Link to="/otherpage">Other Page</Link>
         </header>
